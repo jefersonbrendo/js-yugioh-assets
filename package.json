@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "http-server . -p 8080"
   },
-  "keywords": ["yugioh", "jokenpo", "game", "javascript"],
+  "keywords": ["yugioh", "jokenpo", "jogo", "javascript"],
   "author": "",
   "license": "ISC",
   "devDependencies": {

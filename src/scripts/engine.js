@@ -1,4 +1,4 @@
-// Game state management
+// Gerenciamento do estado do jogo
 const state = {
     score: {
         playerWins: 0,
@@ -7,27 +7,27 @@ const state = {
     cardData: [
         {
             id: 0,
-            name: "Blue Eyes White Dragon",
-            type: "Paper",
+            name: "Dragão Branco de Olhos Azuis",
+            type: "Papel",
             img: "./src/assets/icons/dragon.png",
-            winOf: [1], // wins against Rock (Dark Magician)
-            loseOf: [2] // loses against Scissors (Exodia)
+            winOf: [1], // vence contra Pedra (Mago Negro)
+            loseOf: [2] // perde contra Tesoura (Exodia)
         },
         {
             id: 1,
-            name: "Dark Magician", 
-            type: "Rock",
+            name: "Mago Negro", 
+            type: "Pedra",
             img: "./src/assets/icons/exodia.png",
-            winOf: [2], // wins against Scissors (Exodia)
-            loseOf: [0] // loses against Paper (Blue Eyes)
+            winOf: [2], // vence contra Tesoura (Exodia)
+            loseOf: [0] // perde contra Papel (Dragão Branco)
         },
         {
             id: 2,
             name: "Exodia",
-            type: "Scissors", 
+            type: "Tesoura", 
             img: "./src/assets/icons/magician.png",
-            winOf: [0], // wins against Paper (Blue Eyes)
-            loseOf: [1] // loses against Rock (Dark Magician)
+            winOf: [0], // vence contra Papel (Dragão Branco)
+            loseOf: [1] // perde contra Pedra (Mago Negro)
         }
     ],
     playerCard: null,
@@ -37,7 +37,7 @@ const state = {
     }
 };
 
-// DOM elements
+// Elementos do DOM
 const playerCards = document.querySelectorAll('.card');
 const playerCardDisplay = document.getElementById('player-card');
 const computerCardDisplay = document.getElementById('computer-card');
@@ -46,22 +46,22 @@ const scoreDisplay = document.getElementById('score-points');
 const nextDuelButton = document.getElementById('next-duel');
 const bgm = document.getElementById('bgm');
 
-// Audio elements
+// Elementos de áudio
 const winAudio = new Audio('./src/assets/audios/win.wav');
 const loseAudio = new Audio('./src/assets/audios/lose.wav');
 
-// Initialize game
+// Inicializar jogo
 function init() {
-    // Start background music
+    // Iniciar música de fundo
     bgm.volume = 0.3;
     bgm.play().catch(() => {
-        // Auto-play might be blocked, user needs to interact first
+        // Auto-play pode estar bloqueado, usuário precisa interagir primeiro
         document.addEventListener('click', () => {
             bgm.play();
         }, { once: true });
     });
 
-    // Add event listeners to cards
+    // Adicionar event listeners às cartas
     playerCards.forEach(card => {
         card.addEventListener('click', () => {
             const cardId = parseInt(card.getAttribute('data-id'));
@@ -69,47 +69,47 @@ function init() {
         });
     });
 
-    // Add event listener to next duel button
+    // Adicionar event listener ao botão próximo duelo
     nextDuelButton.addEventListener('click', resetDuel);
 
-    // Update score display
+    // Atualizar exibição da pontuação
     updateScoreDisplay();
 }
 
-// Select player card
+// Selecionar carta do jogador
 function selectPlayerCard(cardId) {
-    // Remove previous selections
+    // Remover seleções anteriores
     playerCards.forEach(card => card.classList.remove('selected'));
     
-    // Select current card
+    // Selecionar carta atual
     const selectedCard = document.getElementById(`card-${cardId}`);
     selectedCard.classList.add('selected');
     
-    // Set player card
+    // Definir carta do jogador
     state.playerCard = state.cardData[cardId];
     
-    // Generate computer card
+    // Gerar carta do computador
     generateComputerCard();
     
-    // Start duel
+    // Iniciar duelo
     playDuel();
 }
 
-// Generate random computer card
+// Gerar carta aleatória do computador
 function generateComputerCard() {
     const randomId = Math.floor(Math.random() * state.cardData.length);
     state.computerCard = state.cardData[randomId];
 }
 
-// Play the duel
+// Jogar o duelo
 function playDuel() {
-    // Disable card selection
+    // Desabilitar seleção de cartas
     playerCards.forEach(card => {
         card.style.pointerEvents = 'none';
         card.style.opacity = '0.6';
     });
 
-    // Show cards with flip animation
+    // Mostrar cartas com animação de virar
     setTimeout(() => {
         showPlayerCard();
     }, 500);
@@ -123,7 +123,7 @@ function playDuel() {
     }, 1500);
 }
 
-// Show player card
+// Mostrar carta do jogador
 function showPlayerCard() {
     const cardImg = playerCardDisplay.querySelector('img');
     cardImg.classList.add('card-flip');
@@ -134,7 +134,7 @@ function showPlayerCard() {
     }, 300);
 }
 
-// Show computer card  
+// Mostrar carta do computador
 function showComputerCard() {
     const cardImg = computerCardDisplay.querySelector('img');
     cardImg.classList.add('card-flip');
@@ -145,99 +145,99 @@ function showComputerCard() {
     }, 300);
 }
 
-// Check duel result
+// Verificar resultado do duelo
 function checkDuelResult() {
     let result = '';
     let resultClass = '';
     
-    // Add battle animation
+    // Adicionar animação de batalha
     playerCardDisplay.classList.add('battle-animation');
     computerCardDisplay.classList.add('battle-animation');
     
     setTimeout(() => {
         if (state.playerCard.id === state.computerCard.id) {
-            // Draw
-            result = `It's a draw! Both players chose ${state.playerCard.name}`;
+            // Empate
+            result = `É um empate! Ambos os jogadores escolheram ${state.playerCard.name}`;
             resultClass = 'draw';
         } else if (state.playerCard.winOf.includes(state.computerCard.id)) {
-            // Player wins
-            result = `You win! ${state.playerCard.name} defeats ${state.computerCard.name}`;
+            // Jogador vence
+            result = `Você venceu! ${state.playerCard.name} derrota ${state.computerCard.name}`;
             resultClass = 'win';
             state.score.playerWins++;
             playWinSound();
         } else {
-            // Computer wins
-            result = `You lose! ${state.computerCard.name} defeats ${state.playerCard.name}`;
+            // Computador vence
+            result = `Você perdeu! ${state.computerCard.name} derrota ${state.playerCard.name}`;
             resultClass = 'lose';
             state.score.computerWins++;
             playLoseSound();
         }
         
-        // Update result display
+        // Atualizar exibição do resultado
         resultText.innerHTML = `<p>${result}</p>`;
         resultText.className = `result-container framed ${resultClass}`;
         
-        // Update score
+        // Atualizar pontuação
         updateScoreDisplay();
         
-        // Show next duel button
+        // Mostrar botão próximo duelo
         nextDuelButton.style.display = 'inline-block';
         
-        // Remove battle animation
+        // Remover animação de batalha
         playerCardDisplay.classList.remove('battle-animation');
         computerCardDisplay.classList.remove('battle-animation');
     }, 1000);
 }
 
-// Play win sound
+// Tocar som de vitória
 function playWinSound() {
     winAudio.currentTime = 0;
     winAudio.play().catch(() => {});
 }
 
-// Play lose sound
+// Tocar som de derrota
 function playLoseSound() {
     loseAudio.currentTime = 0;
     loseAudio.play().catch(() => {});
 }
 
-// Update score display
+// Atualizar exibição da pontuação
 function updateScoreDisplay() {
-    scoreDisplay.textContent = `Win: ${state.score.playerWins} | Lose: ${state.score.computerWins}`;
+    scoreDisplay.textContent = `Vitórias: ${state.score.playerWins} | Derrotas: ${state.score.computerWins}`;
 }
 
-// Reset duel for next round
+// Resetar duelo para próxima rodada
 function resetDuel() {
-    // Reset card displays
+    // Resetar exibição das cartas
     const playerCardImg = playerCardDisplay.querySelector('img');
     const computerCardImg = computerCardDisplay.querySelector('img');
     
     playerCardImg.src = './src/assets/icons/card-back.png';
-    playerCardImg.alt = 'Player Card';
+    playerCardImg.alt = 'Carta do Jogador';
     playerCardImg.classList.remove('card-flip');
     
     computerCardImg.src = './src/assets/icons/card-back.png';
-    computerCardImg.alt = 'Computer Card';
+    computerCardImg.alt = 'Carta do Computador';
     computerCardImg.classList.remove('card-flip');
     
-    // Reset result display
-    resultText.innerHTML = '<p>Choose your card to duel!</p>';
+    // Resetar exibição do resultado
+    resultText.innerHTML = '<p>Escolha sua carta para duelar!</p>';
     resultText.className = 'result-container framed';
     
-    // Hide next duel button
+    // Esconder botão próximo duelo
     nextDuelButton.style.display = 'none';
     
-    // Re-enable card selection
+    // Reabilitar seleção de cartas
     playerCards.forEach(card => {
         card.style.pointerEvents = 'auto';
         card.style.opacity = '0.8';
         card.classList.remove('selected');
     });
     
-    // Reset state
+    // Resetar estado
     state.playerCard = null;
     state.computerCard = null;
 }
 
-// Initialize game when page loads
+// Inicializar jogo quando a página carregar
 document.addEventListener('DOMContentLoaded', init);
