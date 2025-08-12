@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Gi-Oh | Jo-ken-po Edition</title>
+    <link rel="icon" href="./src/assets/favicon/Favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="./src/styles/reset.css">
+    <link rel="stylesheet" href="./src/styles/buttons.css">
+    <link rel="stylesheet" href="./src/styles/containers_and_frames.css">
+    <link rel="stylesheet" href="./src/styles/main.css">
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="video" autoplay muted loop>
+        <source src="./src/assets/video/yugi.mp4" type="video/mp4">
+    </video>
+
+    <!-- Background Audio -->
+    <audio id="bgm" loop>
+        <source src="./src/assets/audios/egyptian_duel.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Game Container -->
+    <div class="container">
+        <!-- Score Display -->
+        <div class="score-container framed-golden">
+            <div class="score">
+                <span id="score-points">Win: 0 | Lose: 0</span>
+            </div>
+        </div>
+
+        <!-- Player Cards Container -->
+        <div class="card-container" id="player-cards">
+            <div class="card" id="card-0" data-id="0">
+                <div class="card-image">
+                    <img src="./src/assets/icons/dragon.png" alt="Blue Eyes White Dragon" width="100" height="100">
+                </div>
+                <div class="card-details framed">
+                    <p class="card-name" id="card-name">Blue Eyes White Dragon</p>
+                    <p class="card-type" id="card-type">Paper</p>
+                </div>
+            </div>
+            <div class="card" id="card-1" data-id="1">
+                <div class="card-image">
+                    <img src="./src/assets/icons/exodia.png" alt="Dark Magician" width="100" height="100">
+                </div>
+                <div class="card-details framed">
+                    <p class="card-name" id="card-name">Dark Magician</p>
+                    <p class="card-type" id="card-type">Rock</p>
+                </div>
+            </div>
+            <div class="card" id="card-2" data-id="2">
+                <div class="card-image">
+                    <img src="./src/assets/icons/magician.png" alt="Exodia" width="100" height="100">
+                </div>
+                <div class="card-details framed">
+                    <p class="card-name" id="card-name">Exodia</p>
+                    <p class="card-type" id="card-type">Scissors</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Versus Display -->
+        <div class="versus-container framed-golden-2">
+            <div class="versus-card" id="player-card">
+                <img src="./src/assets/icons/card-back.png" alt="Player Card" width="180" height="180">
+                <p>Player</p>
+            </div>
+            <div class="versus-text">
+                <h1>VS</h1>
+            </div>
+            <div class="versus-card" id="computer-card">
+                <img src="./src/assets/icons/card-back.png" alt="Computer Card" width="180" height="180">
+                <p>Computer</p>
+            </div>
+        </div>
+
+        <!-- Result Display -->
+        <div class="result-container framed" id="result-text">
+            <p>Choose your card to duel!</p>
+        </div>
+
+        <!-- Next Duel Button -->
+        <button class="rpgui-button golden" id="next-duel" style="display: none;">
+            <p>Next Duel</p>
+        </button>
+    </div>
+
+    <script src="./src/scripts/engine.js"></script>
+</body>
+</html>
